@@ -229,7 +229,7 @@
       "type": "object",
       "description": "Defines environment variables for specific jobs or globally. Job level property overrides global variables. If a job sets `variables: {}`, all global variables are turned off.",
       "additionalProperties": {
-        "type": "string"
+        "type": ["string", "integer"]
       }
     },
     "cache": {
@@ -450,8 +450,19 @@
           "description": "Job will run *only* when these filtering options match."
         },
         "extends": {
-          "type": "string",
-          "description": "The name of a job to inherit configuration from."
+          "description": "The name of one or more jobs to inherit configuration from.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            }
+          ]
         },
         "except": {
           "$ref": "#/definitions/filter",
